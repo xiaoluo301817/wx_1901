@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理-登陆</title>
+    <link rel="stylesheet" th:href="@{https://heerey525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css}">
+</head>
+<body>
+
+<form class="layui-form" action="#">
+    <div class="layui-form-item" id="formItem">
+        <div class="layui-inline" style="margin:10px 0px 0px 10px">
+            <label class="layui-form-label" style="font-family: '微软雅黑';font-size: 14px;color: #666;">用户名:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username" lay-verify="required|username" autocomplete="off" class="layui-input">
+            </div>
+            <!--<a href="#" id="searchUser"  class="layui-btn layui-btn-warm"  lay-event="search">查询</a>-->
+            <a class="layui-btn layui-btn-warm" href="#" lay-event="search" id="searchUser" data-type="reload">查询</a>
+        </div>
+
+    </div>
+</form>
+
+
+<table class="layui-hide" id="user" lay-filter="user"></table>
+
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">新增管理员</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">批量删除</button>
+        <!--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>-->
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script type="text/html" id="statusTemplet">
+    <input type="checkbox"
+           name="status" value="{{d.id}}"
+           lay-skin="switch" lay-text="启用|停止"
+           lay-filter="sexDemo"
+           {{ d.id== 1 ? 'checked' : '' }}>
+</script>
+
+<script type="text/html" id="updateDateTime">
+    {{#
+    return layui.util.toDateString(d.updateDateTime, 'yyyy-MM-dd HH:mm:ss')
+    }}
+</script>
+
+<script src="https://heerey525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript" th:src="@{/static/js/user/list.js}"></script>
+
+</body>
+</html>

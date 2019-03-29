@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" th:href="@{static/css/layui.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{static/css/login.css}">
+    <style type="text/css">
+        body {
+            background-image: url("static/images/bj.jpg");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        .admin-header {
+            text-align: center;
+            font-size: 28px;
+            font-family: '微软雅黑';
+            font-weight: 100;
+            color: #fff;
+        }
+
+        .a-button {
+            width: 300px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+
+<!--<div style="color: red;font-size: 30px">-->
+    <!--<p th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></p>-->
+<!--</div>-->
+<div id="container">
+    <div></div>
+    <div class="admin-login-background">
+        <div class="admin-header">
+            微商管理系统
+        </div>
+        <form class="layui-form" method="post" th:action="@{/authentication/form}" id="loginForm">
+            <div>
+                <i class="layui-icon layui-icon-username admin-icon admin-icon-username"></i>
+                <input type="text" name="username" placeholder="请输入用户名"
+                       id="username"
+                       autocomplete="off"
+                       class="layui-input admin-input admin-input-username">
+            </div>
+            <div>
+                <i class="layui-icon layui-icon-password admin-icon admin-icon-password"></i>
+                <input type="password" name="password" id="password"
+                       placeholder="请输入密码"
+                       autocomplete="off"
+                       class="layui-input admin-input">
+            </div>
+
+
+            <div>
+                <input type="text" name="code"
+                       id="code"
+                       placeholder="请输入验证码"
+                       autocomplete="off"
+                       class="layui-input admin-input admin-input-verify">
+                <img class="admin-captcha codeimg" id="codeimg"
+                     th:src="@{/admin/code}"
+                     onclick="updateVerify()">
+            </div>
+            <input type="button" th:onclick="formClick()" class="layui-btn a-button" th:value="登陆"/>
+
+        </form>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{static/global/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{static/global/js/layui.js}"></script>
+<script type="text/javascript">
+
+    //切换验证码
+    function updateVerify() {
+        var imgSrc = $("#codeimg");
+        var src = imgSrc.attr("src");
+        imgSrc.attr("src", chgUrl(src));
+    }
+
+    //加入时间戳，去缓存机制
+    function chgUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        if ((url.indexOf("&")) >= 0) {
+            url = url + "&timestamp=" + timestamp;
+        } else {
+            url = url + "?timestamp=" + timestamp;
+        }
+        return url;
+    }
+
+
+    function formClick() {
+        var flag =validate();
+        if (flag){
+            $('#loginForm').submit();
+        }
+    }
+
+
+
+    function validate() {
+
+        var flag=false;
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var code = $("#code").val();
+        if (username == null || username == "") {//判断用户名是否输入
+            alert("用户名不能为空");
+            return flag;
+        }
+        if (password == null || password == "") {//判断密码是否输入
+            alert("密码不能为空");
+            return flag;
+        }
+        if (code == null || code == "") {//判断密码是否输入
+            alert("验证码不能为空");
+            return flag;
+        }
+        flag =true;
+        return flag;
+    }
+
+</script>
+</body>
+</html>
